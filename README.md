@@ -1,2 +1,1 @@
-Лабораторные работы по курсу.
-homework fo Administrator Linux. Professional
+Лабораторные работы по курсу Administrator Linux. Professional
