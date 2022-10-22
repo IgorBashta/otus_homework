@@ -1,2 +1,2 @@
-# otus_homework
+Лабораторные работы по курсу.
 homework fo Administrator Linux. Professional
