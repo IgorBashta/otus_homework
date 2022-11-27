@@ -3,17 +3,8 @@
 Были установлены и настроены git , vagrant, virtualbox, packer. Завел аккаунты на github.com и vagrantup.com
 
 Выполнение
-.
-выполнил команды для герерации ключа для ssh доступа к github
-ssh-keygen -t rsa -b 4096 -C "pavlik.marozov@gmail.com" 
-ввел имя файла и passphrase
-
-ssh-add ~/.ssh/pub_key
-запустил ssh агент добавил в него ключ. Так же, отрыл редактором полученный файл и добавил ключ в аккаунт github.
-
 зашел по предложенной ссылке https://github.com/dmitry-lyutenko/manual_kernel_update и сделал форк репозитория. далее в git-bash
 git clone git@github.com:marozov/manual_kernel_update.git
-ввел passphrase ключа, репозиторий скачался на мой пк. Перешел в скачанную директорию
 
 cd manual_kernel_update
 запустил vagrant
@@ -52,7 +43,7 @@ echo "vagrant ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vagrant
 #vagrant        ALL=(ALL)       NOPASSWD: ALL
 выполнил команду для сборки box файла
 
-packer build cent5.json
+packer build cent6.json
 Packer отработал без ошибок за 20 мин. на выходе был получен файл centos-7-kernel-6 centos-7.7.1908-kernel-6.0-x86_64-Minimal.box Добавил его в vagrant
 
 vagrant box add --name centos-7-kernel-6 centos-7.7.1908-kernel-6.0-x86_64-Minimal.box
@@ -62,7 +53,7 @@ vagrant box list
 в списке образ присутствует. Далее поменял в исходном vagrant файле имя образа на centos-7-kernel-6 выполнил команду
 
 vagrant reload
-Через 2 минуты подключился к по ssh и проверил, что образ верный
+подключился к по ssh и проверил, что образ верный
 
 vagrant ssh
 uname -r
