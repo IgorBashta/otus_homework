@@ -1,0 +1,74 @@
+10 most frequently visits IP:
+     13 93.158.167.130
+      6 95.108.181.93
+      6 62.75.198.172
+      6 165.22.19.102
+      5 87.250.233.68
+      5 71.6.199.23
+      4 188.43.241.106
+      3 54.39.196.33
+      3 35.240.189.61
+      3 178.128.121.8
+
+Most frequently visited URLs:
+      9 /xmlrpc.php
+      7 /robots.txt
+      3 /wp-includes/js/wp-embed.min.js?ver=5.0.4
+     38 /
+      2 /wp-content/plugins/uploadify/readme.txt
+      2 /favicon.ico
+      1 /wp-includes/js/wp-emoji-release.min.js?ver=5.0.4
+      1 /wp-includes/js/comment-reply.min.js?ver=5.0.4
+      1 /wp-includes/ID3/comay.php
+      1 /wp-includes/css/dist/block-library/style.min.css?ver=5.0.4
+      1 /wp-cron.php?doing_wp_cron=1565762786.4766530990600585937500
+      1 /wp-cron.php?doing_wp_cron=1565760219.4257180690765380859375
+      1 /wp-cron.php?doing_wp_cron=1565758629.1767649650573730468750
+      1 /wp-cron.php?doing_wp_cron=1565755676.3754100799560546875000
+      1 /wp-cron.php?doing_wp_cron=1565751459.7073841094970703125000
+      1 /wp-cron.php?doing_wp_cron=1565748350.8502669334411621093750
+      1 /wp-content/themes/llorix-one-lite/css/font-awesome.min.css?ver=4.4.0
+      1 /wp-admin/admin-post.php?page=301bulkoptions
+      1 /.well-known/security.txt
+      1 /tag/transparent-tablespaces/
+      1 /tag/overcommit_ratio/
+      1 /tag/oracle-rac/
+      1 /sitemap.xml
+      1 /sitemap-pt-post-2017-06.xml
+      1 /%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D0%B9-%D0%B4%D0%BB%D1%8F-%D0%B2%D1%8B%D1%81/
+      1 /author/admin/
+      1 /admin/config.php
+      1 /admin//config.php
+     15 /wp-login.php
+      1 /2017/08/03/ora-00600-internal-error-code-arguments-k2gteget-pdbid-%D0%B2-oracle-12-0-1/
+      1 /2017/06/07/
+      1 /2016/12/14/virtualenv-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD%D0%BE%D0%B2-python-scrappy-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82-%D0%BD%D0%B0-debian-jessie/
+      1 /2016/10/26/%D0%A1%D0%B5%D1%82%D0%B5%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B-%D1%81-%D0%B7%D0%B0%D0%BF%D1%83%D1%81%D0%BA%D0%BE%D0%BC-crs/
+      1 /2016/10/03/%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B0-%D0%BA-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B5-oracle-12%D1%81-%D0%BD%D0%B0-centos-7/
+      1 /1
+
+All errors:
+404
+404
+404
+500
+404
+404
+404
+404
+404
+404
+404
+404
+404
+404
+499
+404
+404
+
+All requests summary
+     72 200
+     15 404
+     15 301
+      1 500
+      1 499
