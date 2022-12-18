@@ -1,36 +1,7 @@
 # selinux
 
-## Задание
-1. Запустить nginx на нестандартном порту 3-мя разными способами:
-
-      переключатели setsebool;
-
-      добавление нестандартного порта в имеющийся тип;
-
-      формирование и установка модуля SELinux. 
-      К сдаче:
-
-      README с описанием каждого решения (скриншоты и демонстрация приветствуются).
-
-2. Обеспечить работоспособность приложения при включенном selinux.
-
-      развернуть приложенный стенд https://github.com/mbfx/otus-linux-adm/tree/master/selinux_dns_problems;
-      выяснить причину неработоспособности механизма обновления зоны (см. README);
-      предложить решение (или решения) для данной проблемы;
-      выбрать одно из решений для реализации, предварительно обосновав выбор;
-      реализовать выбранное решение и продемонстрировать его работоспособность. 
-      К сдаче:
-      README с анализом причины неработоспособности, возможными способами решения и обоснованием выбора одного из них;
-      исправленный стенд или демонстрация работоспособной системы скриншотами и описанием.
-
-## Задание №1 
-## Запустить nginx на нестандартном порту 3-мя разными способами
-
-
-Развернул машину командой "vagrant up" в директории /selinux, подключился к ней, убедился, что nginx не запустился еще раз )
-
 ### Способ №1 setsebool
-
+вывод консоли *vasgrant up*
 ```
     otus: Job for nginx.service failed because the control process exited with error code. See "systemctl status nginx.service" and "journalctl -xe" for details.
     otus: Dec 18 17:32:55 otus nginx[3684]: nginx: [emerg] bind() to 0.0.0.0:4881 failed (13: Permission denied)
@@ -68,8 +39,6 @@ Dec 18 17:37:08 otus nginx[3761]: nginx: configuration file /etc/nginx/nginx.con
 Dec 18 17:37:08 otus systemd[1]: Started The nginx HTTP and reverse proxy server.
 
 ```
-
-![image](https://user-images.githubusercontent.com/98832702/166105298-82ebe786-d214-4259-9c40-26a5d9bb47dc.png)
 
 ### Способ №2 добавление нестандартного порта в имеющийся тип
 
@@ -155,7 +124,7 @@ Dec 18 17:48:24 otus systemd[1]: Started The nginx HTTP and reverse proxy server
 ```
 
 ## Задание №2
-## Обеспечить работоспособность приложения при включенном selinux
+
 Развернул машины командой "vagrant up" в директории selinux/2/selinux_dns_problems
 ### Способ №1 Изменение типа контекста безопасности для каталога /etc/named
 
