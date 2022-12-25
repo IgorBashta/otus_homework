@@ -1,0 +1,275 @@
+- hosts: all
+  become: true
+  tasks:
+  - name: Copy timezone
+    copy:
+      src: "/usr/share/zoneinfo/Europe/Moscow"
+      dest: /etc/localtime
+      remote_src: yes
+
+
+  - name: restart chronyd
+    systemd:
+      name: chronyd
+      enabled: yes
+      state: restarted
+
+
+- hosts: web
+  become: true
+  vars:
+    server_address: 192.168.56.102
+  tasks:
+  - name: install epel
+    yum:
+      name: epel-release
+      state: present
+
+
+  - name: Install nginx
+    yum:
+      name: nginx
+      state: present
+
+
+  - name: Install audispd-plugins
+    yum:
+      name: audispd-plugins
+      state: present
+
+
+  - name: Add audit.rules
+    lineinfile:
+      path: /etc/audit/rules.d/audit.rules
+      line: |
+        -w /etc/nginx/nginx.conf -p wa -k nginx_conf
+        -w /etc/nginx/default.d/ -p wa -k nginx_conf
+
+      
+  - name: load nginx.conf
+    template:
+      src: "nginx.conf.j2"
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: restart nginx
+    systemd:
+      name: nginx
+      enabled: yes
+      state: restarted
+
+
+  - name: load auditd.conf
+    copy:
+      src: "auditd.conf"
+      dest: /etc/audit/auditd.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: load au-remote.conf
+    copy:
+      src: "au-remote.conf"
+      dest: /etc/audisp/plugins.d/au-remote.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: load audisp-remote.conf
+    template:
+      src: "audisp-remote.conf.j2"
+      dest: /etc/audisp/audisp-remote.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Restart auditd
+    shell: service auditd restart
+
+
+  - name: load filebeat.repo
+    copy:
+      src: "filebeat.repo"
+      dest: /etc/yum.repos.d/kibana.repo
+      owner: root
+      group: root
+      mode: '0644'
+
+
+- hosts: log
+  become: true
+  tasks:
+  - name: load rsyslog.conf
+    copy:
+      src: "rsyslog.conf"
+      dest: /etc/rsyslog.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Restart rsyslog
+    systemd:
+      name: rsyslog
+      enabled: yes
+      state: restarted
+
+
+  - name: Config auditd
+    lineinfile:
+      dest: /etc/audit/auditd.conf
+      regexp: '##tcp_listen_port = 60'
+      line: 'tcp_listen_port = 60'
+      state: present
+
+
+  - name: Restart auditd
+    shell: service auditd restart
+ 
+
+- hosts: elk
+  become: true
+  tasks:
+  - name: Install java
+    yum:
+      name: java-1.8.0
+      state: present
+
+
+  - name: load elk.repo
+    copy:
+      src: "elk.repo"
+      dest: /etc/yum.repos.d/elasticsearch.repo
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Install elasticsearch
+    yum:
+      name: elasticsearch
+      enablerepo: elasticsearch
+      state: present
+
+
+  - name: load kibana.repo
+    copy:
+      src: "kibana.repo"
+      dest: /etc/yum.repos.d/kibana.repo
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Install kibana
+    yum:
+      name: kibana
+      state: present
+
+
+  - name: Install logstash
+    yum:
+      name: logstash
+      state: present
+
+
+  - name: load filter.conf
+    copy:
+      src: "filter.conf"
+      dest: /etc/logstash/conf.d/filter.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: load input.conf
+    copy:
+      src: "input.conf"
+      dest: /etc/logstash/conf.d/input.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: load output.conf
+    copy:
+      src: "output.conf"
+      dest: /etc/logstash/conf.d/output.conf
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: restart logstash
+    systemd:
+      name: logstash
+      enabled: yes
+      state: restarted
+
+
+  - name: restart elasticsearch
+    systemd:
+      name: elasticsearch
+      enabled: yes
+      state: restarted
+
+
+  - name: Config kibana host
+    lineinfile:
+      dest: /etc/kibana/kibana.yml
+      regexp: '#server.host: "localhost"'
+      line: 'server.host: "0.0.0.0"'
+      state: present
+
+
+  - name: restart kibana
+    systemd:
+      name: kibana
+      enabled: yes
+      state: restarted
+
+- hosts: web
+  become: true
+  tasks:
+  - name: Install filebeat
+    yum:
+      name: filebeat
+      state: present
+
+  - name: load filebeat.yml
+    copy:
+      src: "filebeat.yml"
+      dest: /etc/filebeat/filebeat.yml
+      owner: root
+      group: root
+      mode: '0644'
+
+
+  - name: Active nginx.yml
+    copy:
+      src: /etc/filebeat/modules.d/nginx.yml.disabled
+      dest: /etc/filebeat/modules.d/nginx.yml
+      remote_src: yes 
+
+
+  - name: restart filebeat
+    systemd:
+      name: filebeat
+      enabled: yes
+      state: restarted
+
+
+  - name: test 200
+    uri:
+      url: http://127.0.0.1
+
+
+  - name: test 404
+    uri:
+      url: http://127.0.0.1/test

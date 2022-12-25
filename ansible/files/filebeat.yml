@@ -1,0 +1,8 @@
+output.logstash:
+  hosts: ["192.168.56.102:5044"]
+
+setup.kibana:
+  host: "192.168.56.102:5601"
+
+
+filebeat.config.modules.path: ${path.config}/modules.d/*.yml
