@@ -1,0 +1,31 @@
+---   
+- hosts: all
+  become: yes
+  tasks:
+  - name: install packages
+    yum: 
+      name: https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+      state: present
+      update_cache: true
+  - name: install Percona-Server
+    yum:
+      name: Percona-Server-server-57
+      state: present
+      update_cache: true
+  - name: Disabling SELinux state
+    selinux:
+      state: disabled
+  - name: 
+    template: 
+      src: "{{ item }}" 
+      dest: /etc/my.cnf.d/
+      owner: mysql 
+      group: root
+      mode: 0660
+    with_fileglob:
+      - templates/*.cnf
+  - name: start mysql
+    systemd:
+      name: mysql
+      enabled: yes
+      state: restarted      
