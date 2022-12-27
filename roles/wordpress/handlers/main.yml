@@ -1,0 +1,70 @@
+---
+# handlers file for roles/wordpress
+
+- name: start nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+
+- name: start php-fpm
+  systemd:
+    name: php-fpm
+    state: started
+    enabled: yes
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    state: restarted
+
+- name: start mariadb
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+  listen: mariadb
+
+- name: mysql_secure_installation
+  shell: echo -e "\ny\n"{{ mysql_root_pass }}"\n"{{ mysql_root_pass }}"\ny\ny\ny\ny" | /usr/bin/mysql_secure_installation
+  listen: mariadb
+
+- name: Create mysql database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_pass }}"
+    name: "{{ db_name }}"
+    encoding: utf8
+    collation: utf8_bin
+  listen: mariadb
+
+- name: Create mysql user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_pass }}"
+    name: "{{ db_name }}"
+    password: "{{ db__pass }}"
+    host: "localhost"
+    priv: "*.*:ALL"
+    state: present
+  listen: mariadb
+
+- name: Restore database from dump file
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_pass }}"
+    name: "{{ db_name }}"
+    state: import
+    target: /tmp/wordpress.sql.gz
+  listen: mariadb
+
+- name: Configure site
+  unarchive:
+    src: wordpress.zip
+    dest: /var/www/
+  listen: mariadb

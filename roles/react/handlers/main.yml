@@ -1,0 +1,29 @@
+---
+# handlers file for roles/react
+
+#- name: Selinux add port
+#  shell: semanage port -a -t http_port_t -p tcp 8090
+#  listen: start nginx
+
+- name: start nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted
+  listen: uwsgi_nginx
+
+- name: start php-fpm
+  systemd:
+    name: php-fpm
+    state: started
+    enabled: yes
+
+- name: restart php-fpm
+  systemd:
+    name: php-fpm
+    state: restarted

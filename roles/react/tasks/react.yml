@@ -1,0 +1,27 @@
+---
+# tasks file for roles/react
+
+- name: NodeSource repository
+  shell: curl -sL https://rpm.nodesource.com/setup_14.x | bash -
+
+- name: Install NodeJS
+  yum:
+    name: [nodejs, gcc-c++, make]
+    state: present
+
+- name: Create directory
+  file:
+    path: /var/www/react/dev
+    state: directory
+
+- name: React app create
+  shell: npm install -g serve && npx create-react-app /var/www/react/dev
+    
+- name: build react app
+  shell: cd /var/www/react/dev && npm run build
+    
+- name: Copy config
+  copy: 
+    src: react.conf
+    dest: /etc/nginx/conf.d/react.conf
+  notify: uwsgi_nginx

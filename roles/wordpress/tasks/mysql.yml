@@ -1,0 +1,18 @@
+---
+# tasks file for roles/wordpress
+
+- name: install mariadb-server
+  yum:
+    name: mariadb-server
+    state: present
+  notify: mariadb
+
+- name: install MySQL-python
+  yum:
+    name: MySQL-python
+    state: present
+
+- name: copy dump DB
+  copy:
+    src: wordpress.sql.gz
+    dest: /tmp

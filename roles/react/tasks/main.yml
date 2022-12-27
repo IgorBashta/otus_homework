@@ -1,0 +1,15 @@
+---
+# tasks file for roles/react
+
+- name: Set timezone to Europe/Moscow
+  timezone:
+    name: Europe/Moscow
+
+- name: React_nginx
+  include_tasks: nginx.yml
+
+- name: React_php-fpm
+  include_tasks: php-fpm.yml
+
+- name: Install react
+  include_tasks: react.yml

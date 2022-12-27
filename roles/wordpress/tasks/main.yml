@@ -1,0 +1,15 @@
+---
+# tasks file for roles/wordpress
+
+- name: Set timezone to Europe/Moscow
+  timezone:
+    name: Europe/Moscow
+
+- name: Wordpress_nginx
+  include_tasks: nginx.yml
+
+- name: Wordpress_php-fpm
+  include_tasks: php-fpm.yml
+
+- name: Wordpress_mysql
+  include_tasks: mysql.yml

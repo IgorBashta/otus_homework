@@ -1,0 +1,24 @@
+---
+# tasks file for roles/wordpress
+
+- name: Install unzip
+  yum:
+    name: unzip
+    state: present
+
+- name: Add Nginx repository
+  copy:
+    src: CentOS-Nginx.repo
+    dest: /etc/yum.repos.d/
+
+- name: Install Nginx package
+  yum:
+    name: nginx
+    state: present
+  notify: start nginx
+
+- name: Create config file
+  copy:
+    src: wordpress.conf
+    dest: /etc/nginx/conf.d/wordpress.conf
+  notify: restart nginx

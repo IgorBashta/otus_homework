@@ -1,0 +1,12 @@
+---
+# tasks file for roles/django
+
+- name: Set timezone to Europe/Moscow
+  timezone:
+    name: Europe/Moscow
+
+- name: Flask_nginx
+  include_tasks: nginx.yml
+
+- name: Install django
+  include_tasks: django.yml
