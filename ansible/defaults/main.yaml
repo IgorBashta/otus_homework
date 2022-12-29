@@ -1,4 +1,4 @@
-symmetric_routing: false
+symmetric_routing: true
 
 router_id:
   -  router_name: router1

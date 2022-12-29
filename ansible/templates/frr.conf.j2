@@ -17,9 +17,9 @@ interface enp0s8
     ip ospf mtu-ignore
     !Если потребуется, можно указать «стоимость» интерфейса
     {% if ansible_hostname == 'router1' %}
-    ip ospf cost 1000
+    ip ospf cost 800
     {% elif ansible_hostname == 'router2' and symmetric_routing == true %}
-    ip ospf cost 1000
+    ip ospf cost 800
     {% else %}
     !ip ospf cost 450
     {% endif %}
@@ -33,26 +33,14 @@ interface enp0s9
     description r1-r3
     ip address {{ item.ip2 }}/30
     ip ospf mtu-ignore
-    {% if ansible_hostname == 'router1' %}
-    ip ospf cost 1000
-    {% elif ansible_hostname == 'router2' and symmetric_routing == true %}
-    ip ospf cost 1000
-    {% else %}
-    !ip ospf cost 450
-    {% endif %}
+    ip ospf cost 100
     ip ospf hello-interval 10
     ip ospf dead-interval 30
 interface enp0s10
     description net_router1
     ip address {{ item.ip3 }}/24
     ip ospf mtu-ignore
-    {% if ansible_hostname == 'router1' %}
-    ip ospf cost 1000
-    {% elif ansible_hostname == 'router2' and symmetric_routing == true %}
-    ip ospf cost 1000
-    {% else %}
-    !ip ospf cost 450
-    {% endif %}
+    ip ospf cost 100
     ip ospf hello-interval 10
     ip ospf dead-interval 30
 !
@@ -69,17 +57,17 @@ router ospf
     neighbor 10.0.10.2
     neighbor 10.0.12.2
 {% endif %}
-{% if ansible_hostname == 'router3' %}
+{% if ansible_hostname == 'router2' %}
+    network 10.0.10.0/30 area 0
     network 10.0.11.0/30 area 0
-    network 10.0.12.0/30 area 0
     network 192.168.70.0/24 area 0
     !Указываем адреса соседних роутеров
     neighbor 10.0.11.2
     neighbor 10.0.12.1
 {% endif %}
-{% if ansible_hostname == 'router2' %}
-    network 10.0.10.0/30 area 0
+{% if ansible_hostname == 'router3' %}
     network 10.0.11.0/30 area 0
+    network 10.0.12.0/30 area 0
     network 192.168.80.0/24 area 0
     !Указываем адреса соседних роутеров
     neighbor 10.0.10.1
