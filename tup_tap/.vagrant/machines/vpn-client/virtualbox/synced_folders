@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/home/igorbashta/otus/otus_homework/tup_tap","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
