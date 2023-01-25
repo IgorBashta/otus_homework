@@ -1,0 +1,145 @@
+- hosts: inetRouter
+  become: true
+  tasks:
+  - name: set up ifconf on bond0
+    template:
+      src: inetbond0
+      dest: /etc/sysconfig/network-scripts/ifcfg-bond0
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: set up ifconf on eth1
+    template:
+      src: ifcfg-eth1
+      dest: /etc/sysconfig/network-scripts/ifcfg-eth1
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: set up ifconf on eth2
+    template:
+      src: ifcfg-eth2
+      dest: /etc/sysconfig/network-scripts/ifcfg-eth2
+      owner: root
+      group: root
+      mode: 0644
+   
+- hosts: inetRouter, centralRouter
+  become: true
+  tasks:
+  - name: set up forward packages across routers
+    sysctl:
+      name: net.ipv4.conf.all.forwarding
+      value: '1'
+      state: present
+
+- hosts: centralRouter
+  become: true
+  tasks:
+  - name: Set DEFROUTE
+    lineinfile:
+      dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+      regexp: '.*DEFROUTE.*'
+      line: 'DEFROUTE=no'
+      state: present  
+
+  - name: set up ifconf on bond0
+    template:
+      src: ifcfg-bond0
+      dest: /etc/sysconfig/network-scripts/ifcfg-bond0
+      owner: root
+      group: root
+      mode: 0644
+ 
+  - name: set up ifconf on eth1
+    template:
+      src: ifcfg-eth1
+      dest: /etc/sysconfig/network-scripts/ifcfg-eth1
+      owner: root
+      group: root
+      mode: 0644
+  
+  - name: set up ifconf on eth2
+    template:
+      src: ifcfg-eth2
+      dest: /etc/sysconfig/network-scripts/ifcfg-eth2
+      owner: root
+      group: root
+      mode: 0644
+      
+  - name: set up vlan100
+    template:
+      src: vlan100
+      dest: /etc/sysconfig/network-scripts/ifcfg-vlan100
+      owner: root
+      group: root
+      mode: 0644
+      
+  - name: set up vlan101
+    template:
+      src: vlan101
+      dest: /etc/sysconfig/network-scripts/ifcfg-vlan101
+      owner: root
+      group: root
+      mode: 0644    
+      
+- hosts: testClient1 
+  become: true
+  tasks:
+  - name: set up route on testClient1 
+    template:
+      src: netplantestClient1
+      dest: /etc/netplan/50-vagrant.yaml
+      owner: root
+      group: root
+      mode: 0644
+      
+- hosts: testClient2
+  become: true
+  tasks:
+  - name: set up route on testClient2 
+    template:
+      src: netplantestClient2
+      dest: /etc/netplan/50-vagrant.yaml
+      owner: root
+      group: root
+      mode: 0644
+      
+- hosts: testServer1 
+  become: true
+  tasks:
+  - name: set up route on testServer1 
+    template:
+      src: netplantestServer1
+      dest: /etc/netplan/50-vagrant.yaml
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: testServer2 
+  become: true
+  tasks:
+  - name: set up route on testServer2 
+    template:
+      src: netplantestServer2
+      dest: /etc/netplan/50-vagrant.yaml
+      owner: root
+      group: root
+      mode: 0644
+
+- hosts: testServer2, testServer1, testClient2, testClient1
+  become: true
+  tasks:
+  - name: install net-tools
+    apt:
+      name: net-tools
+      state: present
+      update_cache: true
+  
+- hosts: all
+  become: true
+  tasks:
+  - name: reboot
+    reboot:
+      reboot_timeout: 3600
